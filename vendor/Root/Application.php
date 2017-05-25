@@ -49,9 +49,31 @@ class Application
         /**
          * If the path exists in the config array
          */
+
+        // Param false si URI simmple, true, si URI complexe /parama/id=*
+        $useIndexEtoile = false;
+
+        $explodeUri = explode("/", $uri);
+        //si param == id
+        if(isset($_GET['id']) && (count($explodeUri)-1)>1) {
+            //echo $uri."<br>".count($explodeUri)."<br>";
+
+            $lastParam = $explodeUri[count($explodeUri) - 1];
+            $indexEtoile = substr($uri, 0, -1 * strlen($lastParam)) . "*";
+            //echo $indexEtoile;
+        }
+
+        // mode normal
         if( isset($routes[$uri]) ){
             $index = $uri;
-        } else if( isset( $routes['/'] ) ){
+        }
+        // mode complexe avec id
+        else if(isset($lastParam) && isset($indexEtoile) && isset($routes[$indexEtoile])) {
+            $index = $indexEtoile;
+            $useIndexEtoile = true;
+        }
+        // sinon index avec réécriture de l'url par le .htaccess
+        else if( isset( $routes['/'] ) ){
             $index = '/';
         } else {
             $index = 0;
@@ -62,24 +84,25 @@ class Application
          */
         if(isset( $routes[$index]['call'] )){
             // avant include de la vue directe : include_once MODPATH . DS .$routes[$index]['call'];
-
-            //var_dump($routes[$index]['call'] ."<br>");
-            //var_dump($routes[$index]['view'] ."<br>");
-
             // Include de ma classe
             if(file_exists(MODPATH . DS .$routes[$index]['call'])) {
 
                 // recuperation de la classe en dynamique
                 require_once(MODPATH . DS . $routes[$index]['call']);
                 // On l'instanscie
-                $controller = new $routes[$index]['name']($routes[$index]['view']);
+                if( !isset($lastParam) || !isset($indexEtoile) || !$useIndexEtoile) {
+                    $controller = new $routes[$index]['name']($routes[$index]['view']);
+                }else{
+                    $controller = new $routes[$index]['name']($routes[$index]['view'], $_GET['id']);
+                }
 
-                // Si tout va bien
+                // Si tout va mal 2
                 if (!isset($controller)) {
-                    echo "Error Class instenciate error";
+                    var_dump("My 404 : Class not Found 2");
                 }
             }else{
-                var_dump("My 404 : Class not Found");
+                // Si tout va mal 1
+                var_dump("My 404 : Class not Found 1");
             }
         }
         return $this;
@@ -93,21 +116,6 @@ class Application
     public static function oss_start()
     {
         $config = array();
-
-        // Load all the config files we have to /config folder
-        /*if( $dir = opendir( CONFPATH ) ){
-            while( false !== ($file = readdir( $dir )) ){
-                if( !is_dir(__DIR__ . DS . $file) && $file !== '.' && $file !== '..' ){
-                    $config = array_merge_recursive(
-                        $config,
-                        include_once CONFPATH . DS . $file
-                    );
-                }
-            }
-            closedir($dir);
-        } else {
-            throw new \Exception("Impossible to apccess the config path.", 1);
-        }*/
 
         // easiest version with only just 1 config file :
         $config = include_once CONFPATH . DS . 'routes.php';

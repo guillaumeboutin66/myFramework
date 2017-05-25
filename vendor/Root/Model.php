@@ -15,8 +15,7 @@ class Model
      */
     public function __construct()
     {
-        $sql = new Sql();
-        $this->dbConnect = $sql->openMySqlConnection();
+        $this->dbConnect = Sql::getInstanceSql();
     }
 
 

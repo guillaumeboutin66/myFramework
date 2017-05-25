@@ -1,0 +1,61 @@
+Question 1 :
+Si vous n'avez mis en place aucun sytème pour gérer les instances de votre
+classe qui vous permettra de vous connecter à la base de données, nous constatons un problème, lequel ?
+Question 2 :
+Donnez une solution pour éviter ce problème, puis rajouter cette fonctionnalité à votre framework.
+
+	J'ai utilisé un Singleton pour ma connexion à la base de données afin d'en avoir qu'une.
+	Plusieurs connexions dans notre cas peuvent être considéré inutiles et gourmand pour rien.
+	Une seule instance nous en facilitera la gestion également.
+
+	Dans le cas où je ne l'aurais pas géré, on se serait rendu compte d'un grand nombre de connection pas forcément fermée`.
+	Donc de la consommation inutile.
+	De plus avec une seule instance qui à un nombre de requête à la secondes limiter, une seule instance me facilite son décompte
+	et pourrait me permettre de Scaler mon serveur/mes connexions.
+
+
+
+
+Question 3 :
+L'injection de dépendance ne suffit souvent pas à elle seule à ce que nos classes soient vraiment indépendantes. Expliquez comment vous feriez pour améliorer votre architecture.
+
+	Pour une plus grandes indépendances, j'ai géré la classe Adresse extèrieurement à la classe Personne afin
+	de pouvoir géré ses adresses ou Personnes totalement séparées.
+	Cela m'oblige par contre lors d'une suppression à déclencher un trigger par exemple afin
+	de supprimer ses adresses.
+	En dehors de ça, les 2 vivent séparemment tel que les tables en Bdd.
+	Les adresses ont juste une liaison sur l'identifiant de la personne.
+
+Optionnel (+2) : Trigger fait mais pas réussi à le crééer sur le serveur (deception):
+
+	CREATE TRIGGER user_deleted AFTER DELETE on `user`
+	FOR EACH ROW
+	BEGIN
+	DELETE FROM  `address`
+	    WHERE `address`.idUser = old.id;
+	END
+
+	Erreur : 	ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+				corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+
+Question 4 :
+Décrivez une amélioration possible à apporter à la gestion des vues
+
+	Personnelement, je pense que changer de page à chaque fois n'est plus d'actualités
+	et le changement que d'une partie de la page, tout comme ici le body dois pouvoir être fais séparement.
+	Il faudrait pouvoir faire une requête AJAX pour changer seulement le BODY de ma vue ou même juste une div ou table.
+
+
+Question 5 :
+Décrivez les 3 fonctionnalités supplémentaires à apporter à votre framework.
+
+	- Mettre en place une listes d'actions passer en post pour rafraichir une partie de la page
+		L'action passera dans un switch dans le controller (Non fait)
+	- Envoie par mail de la liste des utilisateurs (Non Fait)
+	- Sauvegarder le Tableau en image pour diffuser également (Fait)
+	    Avec plugin js : html2canvas
+
+
+
+

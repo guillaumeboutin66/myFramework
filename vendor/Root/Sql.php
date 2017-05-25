@@ -8,25 +8,41 @@
  */
 class Sql
 {
+    private static $instanceSql = null;
+
     /**
      * Sql constructor.
      */
     public function __construct()
     {
-    }
 
+    }
 
     /**
-     * Open the connection on Database
+     * get Connection Instance
+     * @return null|PDO|Sql
      */
-    function openMySqlConnection()
+    public static function getInstanceSql()
     {
-        try{
-            return new PDO("mysql:host=" . DB_HOST . ";port=". DB_PORT .";dbname=" . DB_NAME, DB_USER, DB_PASSWORD);
+        if (is_null(self::$instanceSql)) {
+            try {
+                self::$instanceSql = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME, DB_USER, DB_PASSWORD);
+            } catch (PDOException $e) {
+                echo 'Erreur : ' . $e->getMessage() . '<br>';
+                die();
+            }
         }
-        catch(PDOException $e){
-            echo 'Erreur : '.$e->getMessage().'<br>';
-            die();
-        }
+
+        return self::$instanceSql;
     }
+
+    /**
+     * Block for Singleton
+     * @return bool
+     */
+    public function __clone()
+    {
+        return false;
+    }
+
 }

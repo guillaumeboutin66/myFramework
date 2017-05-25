@@ -6,9 +6,9 @@
  * Date: 19/04/2017
  * Time: 10:05
  */
-class OssController extends Controller
+class UserController extends Controller
 {
-    public function __construct($view = "", $action) {
+    public function __construct($view = "") {
         parent::__construct($view);
     }
 }

@@ -28,11 +28,11 @@ table, th, td {
     width: 250px;
 }
 
-.navigation{
+.navigation, .add{
     width: 100%;
     margin: 20px;
 }
-.navigation>a{
+.navigation>a, .add>a{
     text-decoration: none;
     font-size : 20px;
     padding: 3px;
@@ -41,13 +41,13 @@ table, th, td {
     border: solid;
 }
 
-.navigation>a:visited{
+.navigation>a:visited, .add>a:visited{
     text-decoration: none;
     color : white;
     background-color: darkslateblue;
 }
 
-.navigation>a:hover{
+.navigation>a:hover, .add>a:hover{
     text-decoration: none;
     color : darkslateblue;
     background-color: white;

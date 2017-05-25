@@ -40,3 +40,13 @@ CREATE TABLE IF NOT EXISTS `address` (
 INSERT INTO `address` (`idUser`, `address`, `cityId`) VALUES ("1", "66 rue de la soif", "1");
 INSERT INTO `address` (`idUser`, `address`, `cityId`) VALUES ("2", "42 rue de la solution de l'univers", "2");
 INSERT INTO `address` (`idUser`, `address`, `cityId`) VALUES ("3", "51 rue du pastis", "3");
+
+
+
+/* pas réussi à  faire fonctionner
+CREATE TRIGGER user_deleted AFTER DELETE on `user`
+FOR EACH ROW
+BEGIN
+DELETE FROM  `address`
+    WHERE `address`.idUser = old.id;
+END*/

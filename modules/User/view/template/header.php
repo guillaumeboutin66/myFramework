@@ -9,10 +9,11 @@
     <!-- please note: The JavaScript files are loaded in the footer to speed up page construction -->
 
     <!-- CSS -->
-<!--    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>-->
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href="<?php echo URLASSET . DS . 'css/style.css'?>" rel="stylesheet">
     <script type="text/javascript" src="<?php echo URLASSET . DS . 'js/html2canvas.js'?>"></script>
     <script type="text/javascript" src="<?php echo URLASSET . DS . 'js/jquery-3.2.1.slim.js'?>"></script>
+
 </head>
 <body>
 <!-- logo -->
